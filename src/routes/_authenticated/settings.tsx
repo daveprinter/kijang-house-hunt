@@ -14,9 +14,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — Kijang" },
+      { title: "Settings — Keja Yangu" },
       { name: "description", content: "Update your phone, profile photo, location and house preferences." },
-      { property: "og:title", content: "Settings — Kijang" },
+      { property: "og:title", content: "Settings — Keja Yangu" },
       { property: "og:description", content: "Update your phone, profile photo, location and house preferences." },
     ],
   }),

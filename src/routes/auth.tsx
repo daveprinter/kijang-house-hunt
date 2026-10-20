@@ -14,10 +14,10 @@ import { isPasswordValid, passwordChecks } from "@/lib/password";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Kijang" },
-      { name: "description", content: "Sign in or create your Kijang account to start house hunting." },
-      { property: "og:title", content: "Sign in — Kijang" },
-      { property: "og:description", content: "Sign in or create your Kijang account to start house hunting." },
+      { title: "Sign in — Keja Yangu" },
+      { name: "description", content: "Sign in or create your Keja Yangu account to start house hunting." },
+      { property: "og:title", content: "Sign in — Keja Yangu" },
+      { property: "og:description", content: "Sign in or create your Keja Yangu account to start house hunting." },
     ],
   }),
   component: AuthPage,
@@ -75,7 +75,7 @@ function AuthPage() {
   return (
     <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-md place-items-center px-4 py-10">
       <div className="w-full rounded-3xl border bg-card p-8 shadow-float">
-        <h1 className="text-3xl font-semibold">{mode === "signin" ? "Welcome back" : "Join Kijang"}</h1>
+        <h1 className="text-3xl font-semibold">{mode === "signin" ? "Welcome back" : "Join Keja Yangu"}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {mode === "signin" ? "Sign in to continue your house hunt." : "Create an account to save your hunts."}
         </p>
