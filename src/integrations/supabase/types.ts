@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_access_codes: {
+        Row: {
+          code_hash: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          used: boolean
+        }
+        Insert: {
+          code_hash: string
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          used?: boolean
+        }
+        Update: {
+          code_hash?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          used?: boolean
+        }
+        Relationships: []
+      }
+      admin_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          resend_api_key: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          resend_api_key?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          resend_api_key?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

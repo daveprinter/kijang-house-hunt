@@ -14,10 +14,10 @@ import { isPasswordValid, passwordChecks } from "@/lib/password";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Kijang" },
-      { name: "description", content: "Sign in or create your Kijang account to start house hunting." },
-      { property: "og:title", content: "Sign in — Kijang" },
-      { property: "og:description", content: "Sign in or create your Kijang account to start house hunting." },
+      { title: "Sign in — Keja Yangu" },
+      { name: "description", content: "Sign in or create your Keja Yangu account to start house hunting." },
+      { property: "og:title", content: "Sign in — Keja Yangu" },
+      { property: "og:description", content: "Sign in or create your Keja Yangu account to start house hunting." },
     ],
   }),
   component: AuthPage,
@@ -48,14 +48,19 @@ function AuthPage() {
           toast.error("Password doesn't meet all the requirements yet.");
           return;
         }
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
         });
         if (error) throw error;
-        toast.success("Account created! Check your email to confirm, then sign in.");
-        setMode("signin");
+        if (data.session) {
+          toast.success("Account created — welcome!");
+          navigate({ to: "/" });
+        } else {
+          toast.success("Account created! You can sign in now.");
+          setMode("signin");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -75,7 +80,7 @@ function AuthPage() {
   return (
     <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-md place-items-center px-4 py-10">
       <div className="w-full rounded-3xl border bg-card p-8 shadow-float">
-        <h1 className="text-3xl font-semibold">{mode === "signin" ? "Welcome back" : "Join Kijang"}</h1>
+        <h1 className="text-3xl font-semibold">{mode === "signin" ? "Welcome back" : "Join Keja Yangu"}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {mode === "signin" ? "Sign in to continue your house hunt." : "Create an account to save your hunts."}
         </p>

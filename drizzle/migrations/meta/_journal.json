@@ -8,6 +8,13 @@
       "when": 1792530857093,
       "tag": "0000_profiles_and_avatars",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792532512563,
+      "tag": "0001_admin_access",
+      "breakpoints": true
     }
   ]
 }

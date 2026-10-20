@@ -17,9 +17,9 @@ import { ApartmentCard } from "@/components/ApartmentCard";
 export const Route = createFileRoute("/_authenticated/hunt")({
   head: () => ({
     meta: [
-      { title: "Start house hunting — Kijang" },
+      { title: "Start house hunting — Keja Yangu" },
       { name: "description", content: "Choose house type, budget and features to find vacant houses near you." },
-      { property: "og:title", content: "Start house hunting — Kijang" },
+      { property: "og:title", content: "Start house hunting — Keja Yangu" },
       { property: "og:description", content: "Choose house type, budget and features to find vacant houses near you." },
     ],
   }),
@@ -287,7 +287,7 @@ function Results({ s }: { s: HuntState }) {
 
       <section>
         <h2 className="text-2xl font-semibold">Other places on the map</h2>
-        <p className="text-sm text-muted-foreground">Found on the public map but not yet registered on Kijang — visit or ask around for vacancies.</p>
+        <p className="text-sm text-muted-foreground">Found on the public map but not yet registered on Keja Yangu — visit or ask around for vacancies.</p>
         {nearby === null ? (
           <p className="mt-3 flex items-center gap-2 text-muted-foreground"><Loader2 className="size-4 animate-spin" /> Searching the area…</p>
         ) : nearby.length === 0 ? (

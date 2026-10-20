@@ -13,9 +13,9 @@ export const Route = createFileRoute("/explore")({
   validateSearch: search,
   head: () => ({
     meta: [
-      { title: "Explore areas — Kijang" },
+      { title: "Explore areas — Keja Yangu" },
       { name: "description", content: "Browse counties, constituencies and wards to find apartments with vacancies." },
-      { property: "og:title", content: "Explore areas — Kijang" },
+      { property: "og:title", content: "Explore areas — Keja Yangu" },
       { property: "og:description", content: "Browse counties, constituencies and wards to find apartments with vacancies." },
     ],
   }),

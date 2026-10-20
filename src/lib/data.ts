@@ -118,7 +118,7 @@ export const APARTMENTS: Apartment[] = [
     description: "Spacious units with Wi‑Fi included and hot showers.",
   },
   {
-    id: "mbeli", name: "Mbeli Apartments", ...KV, lat: -1.3718, lng: 38.0102,
+    id: "ndeli", name: "Ndeli Apartments", ...KV, lat: -1.3718, lng: 38.0102,
     caretaker: { name: "Mr. Kioko", phone: "0712 345 603", role: "Landlord" },
     amenities: ["water", "security", "tokens"],
     units: { single: { price: 3000, vacant: 5, total: 18 }, bedsitter: { price: 4500, vacant: 4, total: 14 } },

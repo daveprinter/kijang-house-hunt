@@ -18,7 +18,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
         <Link to="/" className="font-display text-2xl font-semibold text-primary">
-          Kijang<span className="text-secondary">.</span>
+          Keja Yangu<span className="text-secondary">.</span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {tabs.map((t) => (

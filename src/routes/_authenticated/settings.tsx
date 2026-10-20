@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Camera } from "lucide-react";
+import { Camera, ShieldCheck } from "lucide-react";
+import { requestAdminCode, verifyAdminCode } from "@/lib/admin.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { loadUserData, saveUserData } from "@/lib/userStore";
@@ -14,9 +15,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — Kijang" },
+      { title: "Settings — Keja Yangu" },
       { name: "description", content: "Update your phone, profile photo, location and house preferences." },
-      { property: "og:title", content: "Settings — Kijang" },
+      { property: "og:title", content: "Settings — Keja Yangu" },
       { property: "og:description", content: "Update your phone, profile photo, location and house preferences." },
     ],
   }),
@@ -27,6 +28,12 @@ type Prefs = { type?: HouseType | undefined; budget?: number | undefined; featur
 
 function SettingsPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [adminStep, setAdminStep] = useState<"closed" | "code" | "email" | "otp">("closed");
+  const [panelCode, setPanelCode] = useState("");
+  const [adminEmail, setAdminEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [adminBusy, setAdminBusy] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
@@ -136,6 +143,82 @@ function SettingsPage() {
       </section>
 
       <Button size="lg" className="mt-6" onClick={save}>Save settings</Button>
+
+      <section className="mt-6 rounded-2xl border bg-card p-6 shadow-card">
+        <h2 className="flex items-center gap-2 text-xl font-semibold">
+          <ShieldCheck className="size-5 text-primary" /> Admin panel
+        </h2>
+        {adminStep === "closed" && (
+          <Button variant="outline" className="mt-4" onClick={() => setAdminStep("code")}>Open admin panel</Button>
+        )}
+        {adminStep === "code" && (
+          <form
+            className="mt-4 flex gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (panelCode === "4030") setAdminStep("email");
+              else toast.error("Wrong panel code.");
+            }}
+          >
+            <Input value={panelCode} onChange={(e) => setPanelCode(e.target.value)} placeholder="Panel code" inputMode="numeric" />
+            <Button type="submit">Continue</Button>
+          </form>
+        )}
+        {adminStep === "email" && (
+          <form
+            className="mt-4 space-y-3"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setAdminBusy(true);
+              try {
+                const r = await requestAdminCode({ data: { email: adminEmail } });
+                if (!r.ok) {
+                  toast.error("Email not of admin");
+                  navigate({ to: "/" });
+                  return;
+                }
+                toast.success("Verification code sent to your email.");
+                setAdminStep("otp");
+              } catch (err) {
+                toast.error((err as Error).message);
+              } finally {
+                setAdminBusy(false);
+              }
+            }}
+          >
+            <Label>Admin email</Label>
+            <Input type="email" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} placeholder="you@example.com" required />
+            <Button type="submit" disabled={adminBusy}>{adminBusy ? "Sending…" : "Send verification code"}</Button>
+          </form>
+        )}
+        {adminStep === "otp" && (
+          <form
+            className="mt-4 space-y-3"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setAdminBusy(true);
+              try {
+                const r = await verifyAdminCode({ data: { email: adminEmail, code: otp } });
+                if (!r.ok) {
+                  toast.error("Wrong or expired code.");
+                  return;
+                }
+                sessionStorage.setItem("keja_admin", JSON.stringify({ email: r.email, token: r.token }));
+                toast.success("Welcome, admin.");
+                navigate({ to: "/admin" });
+              } catch (err) {
+                toast.error((err as Error).message);
+              } finally {
+                setAdminBusy(false);
+              }
+            }}
+          >
+            <Label>6-digit code sent to {adminEmail}</Label>
+            <Input value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="123456" inputMode="numeric" maxLength={6} required />
+            <Button type="submit" disabled={adminBusy}>{adminBusy ? "Checking…" : "Enter admin panel"}</Button>
+          </form>
+        )}
+      </section>
     </div>
   );
 }

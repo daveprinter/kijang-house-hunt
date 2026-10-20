@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Kijang — Student house hunting in Kwa Vonza" },
+      { title: "Keja Yangu — Student house hunting in Kwa Vonza" },
       { name: "description", content: "Find bedsitters, single rooms and apartments near SEKU and KU Kwa Vonza." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

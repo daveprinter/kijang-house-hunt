@@ -8,10 +8,10 @@ import { APARTMENTS, REGIONS } from "@/lib/data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Kijang — Find student houses near SEKU & KU Kwa Vonza" },
+      { title: "Keja Yangu — Find student houses near SEKU & KU Kwa Vonza" },
       { name: "description", content: "Hunt for bedsitters, single rooms and one-bedrooms around Kwa Vonza, Kitui, Machakos and Nairobi." },
-      { property: "og:title", content: "Kijang — Student house hunting" },
-      { property: "og:description", content: "Pick your house type, budget and features — Kijang finds vacant houses near you." },
+      { property: "og:title", content: "Keja Yangu — Student house hunting" },
+      { property: "og:description", content: "Pick your house type, budget and features — Keja Yangu finds vacant houses near you." },
     ],
   }),
   component: Index,
@@ -34,7 +34,7 @@ function Index() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent">SEKU · KU Kwa Vonza · Kitui</p>
           <h1 className="max-w-3xl text-5xl font-semibold leading-[1.05] md:text-7xl">Your next room, a few taps away.</h1>
           <p className="mt-5 max-w-xl text-lg opacity-90">
-            Kijang helps students and anyone around Kwa Vonza find vacant bedsitters, single rooms and apartments — with real prices and caretaker contacts.
+            Keja Yangu helps students and anyone around Kwa Vonza find vacant bedsitters, single rooms and apartments — with real prices and caretaker contacts.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="h-14 rounded-full px-8 text-base">
@@ -48,7 +48,7 @@ function Index() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-20">
-        <h2 className="text-4xl font-semibold">How Kijang works</h2>
+        <h2 className="text-4xl font-semibold">How Keja Yangu works</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-4">
           {steps.map((s, i) => (
             <div key={s.title} className="rounded-2xl border bg-card p-6 shadow-card">

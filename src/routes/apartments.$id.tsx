@@ -12,12 +12,12 @@ export const Route = createFileRoute("/apartments/$id")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.a.name} — Kijang` },
+          { title: `${loaderData.a.name} — Keja Yangu` },
           { name: "description", content: `${loaderData.a.name} in ${loaderData.a.area}: vacancies, prices and caretaker contact.` },
-          { property: "og:title", content: `${loaderData.a.name} — Kijang` },
+          { property: "og:title", content: `${loaderData.a.name} — Keja Yangu` },
           { property: "og:description", content: loaderData.a.description },
         ]
-      : [{ title: "Apartment not found — Kijang" }, { name: "robots", content: "noindex" }],
+      : [{ title: "Apartment not found — Keja Yangu" }, { name: "robots", content: "noindex" }],
   }),
   component: Detail,
 });
