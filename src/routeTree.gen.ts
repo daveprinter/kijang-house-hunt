@@ -10,33 +10,97 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as AuthenticatedHuntRouteImport } from './routes/_authenticated/hunt'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as ApartmentsIdRouteImport } from './routes/apartments.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedHuntRoute = AuthenticatedHuntRouteImport.update({
+  id: '/hunt',
+  path: '/hunt',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApartmentsIdRoute = ApartmentsIdRouteImport.update({
+  id: '/apartments/$id',
+  path: '/apartments/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/explore': typeof ExploreRoute
+  '/hunt': typeof AuthenticatedHuntRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/apartments/$id': typeof ApartmentsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/explore': typeof ExploreRoute
+  '/hunt': typeof AuthenticatedHuntRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/apartments/$id': typeof ApartmentsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/explore': typeof ExploreRoute
+  '/_authenticated/hunt': typeof AuthenticatedHuntRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/apartments/$id': typeof ApartmentsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/auth' | '/explore' | '/hunt' | '/settings' | '/apartments/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/auth' | '/explore' | '/hunt' | '/settings' | '/apartments/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/explore'
+    | '/_authenticated/hunt'
+    | '/_authenticated/settings'
+    | '/apartments/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ExploreRoute: typeof ExploreRoute
+  ApartmentsIdRoute: typeof ApartmentsIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +112,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/hunt': {
+      id: '/_authenticated/hunt'
+      path: '/hunt'
+      fullPath: '/hunt'
+      preLoaderRoute: typeof AuthenticatedHuntRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/apartments/$id': {
+      id: '/apartments/$id'
+      path: '/apartments/$id'
+      fullPath: '/apartments/$id'
+      preLoaderRoute: typeof ApartmentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedHuntRoute: typeof AuthenticatedHuntRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedHuntRoute: AuthenticatedHuntRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ExploreRoute: ExploreRoute,
+  ApartmentsIdRoute: ApartmentsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
