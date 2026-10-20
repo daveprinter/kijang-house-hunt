@@ -28,6 +28,12 @@ type Prefs = { type?: HouseType | undefined; budget?: number | undefined; featur
 
 function SettingsPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [adminStep, setAdminStep] = useState<"closed" | "code" | "email" | "otp">("closed");
+  const [panelCode, setPanelCode] = useState("");
+  const [adminEmail, setAdminEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [adminBusy, setAdminBusy] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
