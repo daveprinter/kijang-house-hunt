@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Camera } from "lucide-react";
+import { Camera, ShieldCheck } from "lucide-react";
+import { requestAdminCode, verifyAdminCode } from "@/lib/admin.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { loadUserData, saveUserData } from "@/lib/userStore";

@@ -48,14 +48,19 @@ function AuthPage() {
           toast.error("Password doesn't meet all the requirements yet.");
           return;
         }
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
         });
         if (error) throw error;
-        toast.success("Account created! Check your email to confirm, then sign in.");
-        setMode("signin");
+        if (data.session) {
+          toast.success("Account created — welcome!");
+          navigate({ to: "/" });
+        } else {
+          toast.success("Account created! You can sign in now.");
+          setMode("signin");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
