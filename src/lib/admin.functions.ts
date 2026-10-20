@@ -8,6 +8,64 @@ async function sha256(text: string) {
   return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// Brand palette (hex matches of the app's oklch design tokens)
+const BRAND = {
+  bg: "#f7f3ec", // warm cream background
+  card: "#fdfbf7", // card surface
+  ink: "#3a2e25", // foreground text
+  muted: "#7a6a5c", // muted text
+  terracotta: "#c0632f", // primary
+  acacia: "#2f5d50", // secondary
+  border: "#e3d9cb",
+};
+
+function codeEmailHtml(code: string) {
+  const digits = code.split("").join(" ");
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:${BRAND.bg};font-family:Manrope,Segoe UI,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BRAND.bg};padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:${BRAND.card};border:1px solid ${BRAND.border};border-radius:18px;overflow:hidden;">
+        <tr>
+          <td style="background:${BRAND.terracotta};padding:28px 32px;">
+            <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:600;color:#fdfbf7;letter-spacing:-0.5px;">
+              Keja Yangu<span style="color:${BRAND.acacia};background:#fdfbf7;border-radius:6px;padding:0 6px;margin-left:6px;font-size:14px;vertical-align:middle;">Admin</span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:36px 32px 8px;">
+            <h1 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:600;color:${BRAND.ink};">Your admin verification code</h1>
+            <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:${BRAND.muted};">
+              Enter this code in the Keja Yangu admin panel to continue. It expires in <strong style="color:${BRAND.ink};">10 minutes</strong>.
+            </p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              <tr><td align="center" style="background:${BRAND.bg};border:1.5px solid ${BRAND.terracotta};border-radius:14px;padding:22px 0;">
+                <span style="font-family:Georgia,'Times New Roman',serif;font-size:38px;font-weight:700;letter-spacing:10px;color:${BRAND.terracotta};">${digits}</span>
+              </td></tr>
+            </table>
+            <p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:${BRAND.muted};">
+              If you didn't request this code, you can safely ignore this email — no one can enter the admin panel without it.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 32px 28px;">
+            <hr style="border:none;border-top:1px solid ${BRAND.border};margin:0 0 16px;">
+            <p style="margin:0;font-size:12px;color:${BRAND.muted};">
+              Keja Yangu — student house hunting around Kwa Vonza, Kitui &amp; beyond.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
 async function sendCodeEmail(apiKey: string, to: string, code: string) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -15,8 +73,9 @@ async function sendCodeEmail(apiKey: string, to: string, code: string) {
     body: JSON.stringify({
       from: "Keja Yangu <onboarding@resend.dev>",
       to: [to],
-      subject: "Your Keja Yangu admin code",
-      html: `<p>Your admin verification code is:</p><p style="font-size:28px;font-weight:bold;letter-spacing:6px">${code}</p><p>It expires in 10 minutes.</p>`,
+      // Unique subject per code so each email arrives as its own message, not threaded
+      subject: `${code} is your Keja Yangu admin code`,
+      html: codeEmailHtml(code),
     }),
   });
   if (!res.ok) {
