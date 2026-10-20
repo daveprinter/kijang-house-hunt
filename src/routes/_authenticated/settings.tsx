@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
   component: SettingsPage,
 });
 
-type Prefs = { type?: HouseType; budget?: number; features: FeatureId[] };
+type Prefs = { type?: HouseType | undefined; budget?: number | undefined; features: FeatureId[] };
 
 function SettingsPage() {
   const { user } = useAuth();
@@ -43,16 +43,16 @@ function SettingsPage() {
       setLocation(data.location_label ?? "");
       setAvatar(data.avatar_url);
       const p = (data.preferences ?? {}) as Prefs;
-      setPrefs({ features: [], ...p });
+      setPrefs({ ...p, features: p.features ?? [] });
     });
   }, [user]);
 
   async function save() {
     if (!user) return;
     const { error } = await supabase.from("profiles").update({ full_name: name, phone, location_label: location, preferences: prefs, updated_at: new Date().toISOString() }).eq("id", user.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     // Pre-fill the next hunt with these preferences
-    const hunt = loadUserData(user.id, "hunt", { step: 0, features: [] as FeatureId[], confirmed: false });
+    const hunt = loadUserData<Prefs & { step: number; confirmed: boolean }>(user.id, "hunt", { step: 0, features: [], confirmed: false });
     saveUserData(user.id, "hunt", { ...hunt, type: prefs.type ?? hunt.type, budget: prefs.budget ?? hunt.budget, features: prefs.features.length ? prefs.features : hunt.features });
     toast.success("Settings saved");
   }
@@ -61,7 +61,7 @@ function SettingsPage() {
     if (!user) return;
     const path = `${user.id}/avatar-${Date.now()}.${file.name.split(".").pop()}`;
     const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     const { data } = await supabase.storage.from("avatars").createSignedUrl(path, 60 * 60 * 24 * 365 * 5);
     if (!data) return;
     setAvatar(data.signedUrl);

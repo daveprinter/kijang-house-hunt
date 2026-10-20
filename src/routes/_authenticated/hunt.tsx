@@ -29,10 +29,10 @@ export const Route = createFileRoute("/_authenticated/hunt")({
 type Loc = { lat: number; lng: number; label: string };
 type HuntState = {
   step: number;
-  type?: HouseType;
-  budget?: number;
+  type?: HouseType | undefined;
+  budget?: number | undefined;
   features: FeatureId[];
-  location?: Loc;
+  location?: Loc | undefined;
   confirmed: boolean;
 };
 const initial: HuntState = { step: 0, features: [], confirmed: false };
@@ -130,7 +130,7 @@ function Hunt() {
   );
 }
 
-function BudgetStep({ type, value, onPick }: { type: HouseType; value?: number; onPick: (n: number) => void }) {
+function BudgetStep({ type, value, onPick }: { type: HouseType; value?: number | undefined; onPick: (n: number) => void }) {
   const [custom, setCustom] = useState("");
   const opts = BUDGETS[type];
   return (
@@ -152,7 +152,7 @@ function BudgetStep({ type, value, onPick }: { type: HouseType; value?: number; 
   );
 }
 
-function LocationStep({ location, onLocation, onConfirm }: { location?: Loc; onLocation: (l: Loc) => void; onConfirm: (l: Loc) => void }) {
+function LocationStep({ location, onLocation, onConfirm }: { location?: Loc | undefined; onLocation: (l: Loc) => void; onConfirm: (l: Loc) => void }) {
   const [busy, setBusy] = useState(false);
   const [editing, setEditing] = useState(false);
   const [addr, setAddr] = useState("");
@@ -210,7 +210,7 @@ function LocationStep({ location, onLocation, onConfirm }: { location?: Loc; onL
             </form>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button size="sm" variant="ghost" onClick={detect}><Crosshair className="size-4" /> Use my GPS</Button>
-              {REGIONS.flatMap((r) => r.constituencies[0].wards.slice(0, 1).map((w) => ({ ...w, county: r.county }))).map((w) => (
+              {REGIONS.flatMap((r) => r.constituencies[0]!.wards.slice(0, 1).map((w) => ({ ...w, county: r.county }))).map((w) => (
                 <Button key={w.name} size="sm" variant="outline" onClick={() => { onLocation({ lat: w.center[0], lng: w.center[1], label: `${w.name}, ${w.county}` }); setEditing(false); }}>{w.county}</Button>
               ))}
             </div>
