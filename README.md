@@ -1,14 +1,16 @@
-# Welcome to your Lovable project
+# Kijang House Hunt
+
+I want to create an application that helps students around Kwavonza and Southeastern Kenya University and Kenyatta University, Kwavonza branch, or anyone around to do house hunting. There will be filters like, the user selects the house they want. That is, by size, if it's a bedsitter, a single room, or a one-bedroom or two-bedroom. Then after clicking, another option will appear. So these are in form of cards. So it clicks on the card, selects, and then it proceeds, and other cards appear. If you've selected, for example, bedsitter, then it specifies budget. To select the budget from available cards, that is, for example, for bedsitter, the budget should start from 4,500 and above. So there's 4,500, 5,500, 6,500. Then if it does not see its budget, it just types in a field. After selecting the budget, they select features. Another card appears to select the feature they want. That is, what features the house should have. For example, if it's a bedsitter, it should have a balcony. The user chooses if they want to look for houses with balconies. He ticks balcony. He also can select things like tiles, can select running water, he can select if they want spacious or non-spacious. They can select something like kitchen wardrobes. Yeah, such things. Then it proceeds. So it should allow, and it should detect the location. So it asks for user's permission to allow location. So it also stores the location. First of all, before all of this, the user signs in or registers and do not put the limitation of password is known to be too weak. Remove that limitation so that any password can be used, provided is, six or more characters and above. There is a special character, a digit, and a number. I mean, a digit, letters, uppercase and lowercase. Then it shows in a progressive bar the features that have already been met while typing in the password, while setting the password. Now, it should have local storage to save data from previous sessions, even if the app is closed or refreshed. And it should also save data per account sign-in. So for that specific account, it saves that data. Then it proceeds to search for location. After setting all the filters, it proceeds to search for location. Then it asks the user in a floating card panel to confirm whether that is the real location. If not, he types in the location address, then clicks Update. Then the system searches for those keywords for that area. Then it should show the apartments that are around there, even if they are not registered in the system. For now, add the apartments. One called in Kwavonza will be apartments like Amani, Delta, Mbeli, Majibu I, Majibu II, Majibu III, Mizizi Plaza, Kleenex, Beach House. For now. We will still add the others later. But most importantly, the app should search by the area and location, then show all the apartments that are around there that are available for booking and renting. So it should have data to the areas or wards, so the user can select location. They should select where they are. It should also include floating card. There should be cards showing different regions and when that card... For example, there would be a counties in Kitui. Then they specify maybe in a constituency form or in that way. So remove this data from online. They can select something like Nairobi, Machakos. Then when the user selects Nairobi or Machakos, it uses the map to detect the area where... It should first show sample apartments that are available for hiring. And when the user clicks that apartment name, it should see their details, the location, the number of caretaker or landlord, amenities that are provided there. They can see if there are vacants. They should see how many bed sitters or single rooms are available or one bedrooms, that way. And before the user starts hunting for the house, after signing in, it should just go to the homepage of the app. Then at the homepage, there will be another tab called Setting. Under Setting, user can customize their phone number. They can upload a profile icon and update their location or put other specifications in settings that filter the house. Then at Home tab now, there will be a background, like a background visual image relevant to this, and then there should be information about what the app does, and then it should be showing sample data of the areas and some houses that are around there. So let's call this app Kijang. Kijang. Then at the homepage, there will be descriptions and some features in there. Then there will be a button saying, "Start hunting." Start house hunting. Then now the specifications and the cards to specify they will start appearing.
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/c65719a4-28b7-4748-84e1-38c9ed4decf0).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +22,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
